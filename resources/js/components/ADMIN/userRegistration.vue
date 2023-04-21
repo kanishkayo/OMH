@@ -48,6 +48,10 @@
                                     outlined
                                     label="Pharmacy Name"
                                     class="pb-0 mb-0"
+                                    :rules="[
+                                        (v) =>
+                                            !!v || 'Pharmacy Id is Name',
+                                    ]"
                                 ></v-text-field>
                                 <v-text-field
                                     dense
@@ -82,7 +86,7 @@
                                     label="Proprietor's Name"
                                     class="pb-0 mb-0"
                                     :rules="[
-(v) => !!v && /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(v) || 'Name is required and must be valid'
+                                       (v) => !!v && /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(v) || 'Name is required and must be valid'
                                     ]"
                                 ></v-text-field>
                                 <v-text-field
@@ -95,11 +99,9 @@
                                     class="pb-0 mb-0"
                                     placeholder="843522345V or 198435671817"
                                     :rules="[
-                                (v) => !!v || 'NIC Number is required',
-                                (v) => v.length <= 10 ? /^([0-9]{9})(X|V)$/.test
-                                    (v) || 'old NIC must be as 9 digits with V or X (xxxxxxxxx V/X ) OR new NIC must be 12 digits' : /^[0-9]{12}$/.test
-                                        (v) || 'old NIC must be as 9 digits with v (xxxxxxxxxv) OR new NIC must be 12 digits'
-                                                                                ] "
+                                        (v) =>
+                                            !!v || 'NIC is required',
+                                    ]"
                                 ></v-text-field>
                                 <v-text-field
                                     dense
@@ -109,6 +111,11 @@
                                     outlined
                                     label="Pharmacy Address"
                                     class="pb-0 mb-0"
+                                    :rules="[
+                                        (v) =>
+                                            !!v || 'Pharmacy address is required',
+                                    ]"
+                                    
                                 ></v-text-field>
                                 <v-text-field
                                     dense
@@ -118,6 +125,10 @@
                                     outlined
                                     label="District"
                                     class="pb-0 mb-0"
+                                    :rules="[
+                                        (v) =>
+                                            !!v || 'Pharmacy district is required',
+                                    ]"
                                 ></v-text-field>
                                 <v-text-field
                                     dense
@@ -127,6 +138,10 @@
                                     outlined
                                     label="City"
                                     class="pb-0 mb-0"
+                                    :rules="[
+                                        (v) =>
+                                            !!v || 'Pharmacy city is required',
+                                    ]"
                                 ></v-text-field>
                                 <v-text-field
                                     dense
@@ -493,15 +508,10 @@ export default {
                 this.projectFormData.dsd = null;
                 this.projectFormData.email = null;
                 this.projectLetter = null;
-                this.initialize();
                 this.$refs.form.resetValidation();
                 if (this.marker) {
                     this.marker.setMap(null);
                 }
-            },
-
-            initialize(){
-                alert("test");
             },
 
             setSnackbarAlert(message,colorCode){

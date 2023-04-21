@@ -27,6 +27,4 @@ class InventoryItems extends Model
         'updated_at', 'created_at','deleted_at',
     ];
 
-
-
 }

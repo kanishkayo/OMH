@@ -7,6 +7,7 @@ use App\Http\Requests\ServicesRegisterRequest;
 use App\PharmacyStock;
 use App\Repositories\ServicesRepository;
 use App\Traits\ResponseTrait;
+use App\InventoryItems;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -77,25 +78,44 @@ class ServicesController extends Controller
 
     }
 
-    public function update(ServicesRegisterRequest $request, $id)
+    public function update(Request $request)
     {
-        try {
+        $item_id = $request->item_id;
+        $sub_category = $request->sub_category;
+        $item_name = $request->item_name;
 
-            return $this->responseSuccess(
-                $this->repository->update($request->all(), $id),
-                "product updated successfully"
-            );
+        try {
+            $itenventory_item = InventoryItems::find($item_id);
+            $itenventory_item->sub_category = $sub_category;
+            $itenventory_item->item_name = $item_name;
+            $itenventory_item->update();
+            return response()->json(['message'=>'Record Updated Suceesfully']);
 
         } catch (Exception $e) {
 
             return $this->responseErrors($e, $e->getMessage(), $e->getCode());
         }
+
+
+
+
+        // try {
+
+        //     return $this->responseSuccess(
+        //         $this->repository->update($request->all(), $id),
+        //         "product updated successfully"
+        //     );
+
+        // } catch (Exception $e) {
+
+        //     return $this->responseErrors($e, $e->getMessage(), $e->getCode());
+        // }
     }
 
     public function destroy($id)
     {
-        $this->repository->delete($id);
-        return redirect()->route('users.index');
+        InventoryItems::where('id', $id)->delete();
+        return response()->json(['message'=>'Record Deleted Suceesfully']);
     }
     public function previousOrder(Request $request, $id)
     {
